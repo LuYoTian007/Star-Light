@@ -81,8 +81,15 @@ The completed documentation review checked links, structure, commands, permissio
 | GitHub 账号核对 | 认证的 GitHub `GET /user` 返回 `aaf12329`；只保留 login，不输出凭据 |
 | 历史推送证据 | 远端 `main` 整理前为 `c56096580e07f225db7a41360f8c89eeebc5eb9c`；公开 PushEvent 查询被限流，历史推送账号记为未知 |
 
-README、AGENTS 和两份维护记录的相对链接、Markdown 代码块与无 Tab 检查通过，Agent 中的 JavaScript 示例语法通过。23 个生成物/环境/数据/敏感路径示例的忽略检查通过，`docs/change-log.md` 确认不被忽略；`git diff --check` 通过。实际推送回执见 [change-log.md](change-log.md)。新增或改动的函数采用 4 空格及代码块花括号独占一行；其余旧函数保留原格式，不声称全项目已重排。
+README、AGENTS 和两份维护记录的相对链接、Markdown 代码块与无 Tab 检查通过，Agent 中的 JavaScript 示例语法通过。23 个生成物/环境/数据/敏感路径示例的忽略检查通过，`docs/change-log.md` 确认不被忽略；`git diff --check` 通过。推送事实保留在下方历史验证记录；当前 Changelog 仅记录提交者及提交时间。新增或改动的函数采用 4 空格及代码块花括号独占一行；其余旧函数保留原格式，不声称全项目已重排。
 
 目录整理提交 `e49872df80fc3e38cb1de1112b9657dda89596c4` 按本任务人类授权由 Codex 推送；认证账号 `aaf12329`，2026-10-10T20:57:12+08:00 核对远端 `main` 与该本地提交一致。后续文档提交补记此回执，并澄清当前提问者为合作者、教学指导面向另一位不熟悉代码的参与者；该补记未再修改代码，不重复运行已经通过的代码测试。
 
-Task `SL-20261010-02`: both original game file hashes remained unchanged after moving them into `game/`. The YAML file moved into `config/` without byte changes; download paths remain relative to the project root. Eight tests passed, including an isolated entry-point integration check from another working directory with network downloads forbidden. Changed-source syntax, help, default configuration, and explicit configuration were checked successfully. Actual cached Phaser bytes were verified and reused. Only Windows was tested; the game was not run. The authenticated GitHub credential resolved to `aaf12329`; historical push accounts remain unknown because the public event lookup was rate-limited. Consult the change log for actual push receipts.
+Task `SL-20261010-02`: both original game file hashes remained unchanged after moving them into `game/`. The YAML file moved into `config/` without byte changes; download paths remain relative to the project root. Eight tests passed, including an isolated entry-point integration check from another working directory with network downloads forbidden. Changed-source syntax, help, default configuration, and explicit configuration were checked successfully. Actual cached Phaser bytes were verified and reused. Only Windows was tested; the game was not run. The authenticated GitHub credential resolved to `aaf12329`; historical push accounts remain unknown because the public event lookup was rate-limited. The historical push evidence is retained here; the current Changelog contains only contributor and commit time.
+
+
+## 简化 Changelog 与提交格式 / Concise Changelog and Commit Format
+
+日期：2026-10-10。本次仅更新文档：Changelog 改成每次一行、身份与提交时间两项；AGENTS 规定 `CH:` 中文版、`EN:` 英文版，将具体改动写入 commit，并加入个人知识库来源链接和“清洁是一种美德”。README 同步。历史日志的时间从 Git committer 时间核对；已推送提交不改写。文档链接、代码块和原始文件基线检查通过；未修改代码，未重复执行代码测试。
+
+Documentation only: each Changelog line contains just the contributor or known AI model and commit time. AGENTS defines `CH:` / `EN:` messages, cites the personal knowledge repository, and adds the hygiene motto. README is synchronized. Historical dates use Git committer timestamps. Document links, fences, and original file baselines were checked; no code changed or code tests rerun.

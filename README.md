@@ -30,7 +30,7 @@ Star-Light/
 ├── tests/setup.test.js 依赖配置测试
 ├── docs/
 │   ├── verification.md 实测结果与原始文件哈希
-│   └── change-log.md   修改者、AI 标识与推送账号记录
+│   └── change-log.md   每次一行：提交人或 AI 型号、提交时间
 ├── setup.js            保留常用入口：node setup.js
 ├── package.json        npm 指令和固定 YAML 解析器版本
 ├── package-lock.json   解析器版本与完整性锁定
@@ -60,7 +60,7 @@ Star-Light/
 
 入库源码、必要配置、锁文件和维护文档；下载依赖、虚拟环境、缓存、构建产物、原始数据、训练输出和临时照片/聊天记录不入库。不得强制暂存被忽略的文件；新增文件类型先检查忽略规则。最终交付成品是否入库按用途和体积单独判断。私人信息遵循资料库的过滤规则；有“【请过滤本文件】”标记的内容不得分享或批量发布，AI 不自行删除标记。`docs/change-log.md` 是人工维护的项目记录，不属于被忽略的机器运行日志。
 
-修改与推送分开记在 [变更与推送日志](docs/change-log.md)：修改内容、验证、AI 产品和已知模型标识；实际推送账号、执行者、时间、远端分支和已确认的提交。Git 作者、仓库所有者与推送账号不能相互代替；历史未知项如实标注。当前 AI 为 OpenAI Codex，基于 GPT-6；本会话未提供更细模型 ID。日志规则见 [AGENTS.md](AGENTS.md)。日志用于协作者之间追踪贡献，初学者操作说明用于帮助不熟悉代码的另一位参与者理解操作，不将当前提问者默认视为初学者。
+[Changelog](docs/change-log.md) 每次提交追加一行，只记“提交人（或 AI 型号）”和“提交时间”，时间采用北京时间（UTC+08:00）。具体改动及验证写在 commit 的 `CH:` 中文版、`EN:` 英文版中。规则见 [AGENTS.md](AGENTS.md)。日志帮助协作者识别提交者；操作指导帮助另一位不熟悉代码的参与者理解步骤。
 
 ### 自动配置文件夹依赖
 
@@ -221,7 +221,7 @@ Phaser 场景调度【场景修复后】
 
 | 内容 | 当前状态 |
 |---|---|
-| 目录与协作记录 | 已按用途分目录，补全仓库卫生及 AI/推送日志规则 |
+| 目录与协作记录 | 已按用途分目录，补全仓库卫生、简明日志和 CH:/EN: 提交规则 |
 | 原始文件存档 | 已保存 `game/index.html` 与 `game/game.js`，代码保持原始状态 |
 | 标题页面 | 场景定义存在，但脚本语法问题阻止整个游戏启动 |
 | 玩家机制 | 有移动、二段跳、墙跳、墙滑、跳跃缓冲、冲刺、治疗与死亡重生片段；未运行验证 |
@@ -296,7 +296,7 @@ Star-Light/
 ├── tests/setup.test.js Dependency setup tests
 ├── docs/
 │   ├── verification.md Verification results and original file hashes
-│   └── change-log.md   Change authors, AI identity, and push account records
+│   └── change-log.md   One line per commit: contributor or AI model, time
 ├── setup.js            Stable entry: node setup.js
 ├── package.json        npm commands and pinned YAML parser
 ├── package-lock.json   Parser version and integrity lock
@@ -326,9 +326,9 @@ Game source lives in `game/`, configuration in `config/`, tooling in `scripts/`,
 
 Track source, necessary configuration, lockfiles, and maintained documentation. Exclude downloaded dependencies, virtual environments, caches, build output, raw data, training output, temporary photos, chat records, and private material. Review ignore rules when adding file types; never bypass them with forced staging. Assess final deliverables individually by purpose and size. Skip documents marked “【请过滤本文件】” when sharing or publishing, and do not remove their marker automatically. Curated Markdown audit records remain tracked.
 
-[Change and push records](docs/change-log.md) distinguish code changes and their AI author from actual GitHub pushes. Record the known AI product/model, checks, authenticated push account, executor, timestamp, branch, and confirmed commit. Do not infer a push account from the repository owner or Git author. Unknown historical facts stay unknown. This session uses OpenAI Codex based on GPT-6; a more specific model ID is unavailable. Follow [AGENTS.md](AGENTS.md).
+[Changelog](docs/change-log.md) appends one line per commit with only the contributor (or known AI model) and commit time in UTC+08:00. Describe changes and checks in `CH:` Chinese and `EN:` English commit messages. See [AGENTS.md](AGENTS.md).
 
-Audit records track collaborators' contributions. Beginner instructions help the other participant unfamiliar with coding understand operations; they do not imply that the current requester is a beginner.
+The concise log identifies collaborators who submit changes. Beginner instructions help the other participant unfamiliar with coding understand operations; they do not imply that the current requester is a beginner.
 
 ### Automatic project-folder dependency setup
 
@@ -462,7 +462,7 @@ Texture loading, texture generation, and frame animation setup are absent. Final
 
 | Area | Status |
 |---|---|
-| Layout and audit | Categorized folders; hygiene and AI/push audit rules documented |
+| Layout and audit | Categorized folders; hygiene, concise log, and CH:/EN: commit rules documented |
 | Original archive | `game/index.html` and `game/game.js` preserved without code changes |
 | Title scene | Definition exists; script syntax prevents startup |
 | Player mechanics | Movement, double jump, wall jump/slide, jump buffering, dash, healing, and respawn fragments exist; untested |

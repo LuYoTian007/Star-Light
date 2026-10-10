@@ -1,8 +1,10 @@
 # Star-Light：Agent 协作与代码规范 / Agent Working Rules
 
-本文件适用于本项目内的 Agent 工作。先读本文件，再读 [README.md](README.md)；实测记录见 [docs/verification.md](docs/verification.md)，修改者与推送记录见 [docs/change-log.md](docs/change-log.md)。当前人类的明确指令优先于本文默认规则。
+本文件适用于本项目内的 Agent 工作。先读本文件，再读 [README.md](README.md)；实测记录见 [docs/verification.md](docs/verification.md)，简明提交日志见 [docs/change-log.md](docs/change-log.md)。当前人类的明确指令优先于本文默认规则。
 
-来源：用户提供的 `Privacy_Skills_and_Prompt_SQL` 中《代码规范》和《项目接手手册》，结合本项目范围整理；4 空格缩进、花括号换行、初学者操作指导、Git 权限边界及 AI/推送归属日志由用户在本次协作中明确补充。不复制私人画像、笔记、身份信息或其他项目细节。
+该文件参照个人知识库 [Privacy_Skills_and_Prompt_SQL](https://github.com/aaf12329/Privacy_Skills_and_Prompt_SQL)。
+
+来源：用户提供的 `Privacy_Skills_and_Prompt_SQL` 中《代码规范》和《项目接手手册》，结合本项目范围整理；4 空格缩进、花括号换行、初学者操作指导、Git 权限边界及简明提交日志由用户在本次协作中明确补充。不复制私人画像、笔记、身份信息或其他项目细节。
 
 ## 1. 项目事实与当前范围 / Scope
 
@@ -128,6 +130,8 @@ def print_items(items):
 
 ## 6. 依赖与仓库卫生 / Repository Hygiene
 
+**清洁是一种美德**
+
 依据资料库《代码规范》“07 · 仓库卫生”落地；新增例外只有人类明确授权后才适用，不因“方便提交”扩大入库范围。
 
 ### 目录与入库边界
@@ -144,10 +148,10 @@ def print_items(items):
 ### 信息过滤与大文件
 
 - 密钥、凭据、API key、含真实值的 `.env` 永不入库；示例配置只能使用无敏感值的占位符。
-- 文件、提交说明、公开日志和分享资料过滤真实姓名、学校/单位、位置、联系方式、健康信息等私人内容。确需写入须人类明确授权。本任务已授权记录 GitHub 推送账号及 AI 标识，该例外仅覆盖这些审计字段，不覆盖邮箱、令牌或私人资料。
+- 文件、提交说明、公开日志和分享资料过滤真实姓名、学校/单位、位置、联系方式、健康信息等私人内容。确需写入须人类明确授权。已授权的提交人账号或 AI 型号可写入简明日志，该例外不覆盖邮箱、令牌或私人资料。
 - 非通用私人文件顶部的“【请过滤本文件】”表示分享、批量处理和公开产出时跳过；阅读时忽略标记行即可，AI 不自行删除标记，也不把标记当作允许入库或分享的依据。
 - ≥1GB 写入/删除、跨盘操作或环境安装先说明范围，按资料库要求检查系统盘剩余容量、前后变化，并在 `docs/` 中登记时间、去向、大小和用途；超大数据（含压缩包）放非系统盘专用目录，小数据可放仓库旁。普通小文件同盘归类不人为扩成大容量操作。
-- 不修改全局 Git 作者信息；沿用仓库现有身份，明确要求时只调整本仓库。Git 作者、实际推送账号和代码修改 AI 分开记录。
+- 不修改全局 Git 作者信息；沿用仓库现有身份，明确要求时只调整本仓库。Git 作者、实际推送账号和修改 AI 的身份不能互相推断。
 
 ### 依赖重建
 
@@ -168,42 +172,34 @@ def print_items(items):
 - 默认只做普通提交和普通推送。改写已推送历史、强推、回退或删除远端分支需要与其影响匹配的明确授权；普通 push 授权不能自动扩大到这些操作。
 - 暂存前检查 `git status` 和差异，只选择本次相关文件；提交后检查实际提交内容。推送后核对远端提交和本地提交一致。
 
-提交说明中文在前、中英双语，优先采用“中文标题＋中文说明＋英文标题＋英文说明”。标题不超过 72 字符，写清改了什么、怎么验证、影响哪些文档。
+提交说明采用 `CH:` 中文版、`EN:` 英文版，中文在前，两版内容对应。具体改动、验证结果和受影响文档写在 commit 中；Changelog 只记提交人或 AI 型号、提交时间。标题不超过 72 字符。已推送的旧提交不因格式变化追溯改写。
 
-常用前缀：`文档：`、`规范：`、`功能：`、`修复：`、`整理：`、`重构：`；旧代码存档使用 `历史版本：`。既有历史不因格式不同自动追溯改写。
-
-格式示例（验证条目必须替换为实际执行结果）：
+格式示例（验证内容替换为实际结果）：
 
 ```text
-规范：补充 Agent 协作与排版约定
+CH:简化日志并更新协作规范
 
-- 明确 4 空格缩进、花括号换行与树状流程组织
-- 验证：核对文档链接和代码示例；仅更新文档，未修改代码
-- 同步 README 与验证记录
+- Changelog 每次提交只追加一行身份和时间
+- 验证：文档链接及格式核对通过；同步 README
 
-Conventions: document Agent collaboration and formatting
+EN:Simplify the log and update collaboration rules
 
-- Define four-space indentation, brace placement, and tree-shaped flow
-- Verification: check document links and examples; documentation only
-- Update README and the verification record
+- Append only identity and time for each commit
+- Verification: document links and formatting checked; README updated
 ```
 
 提交前检查：README 与进度是否同步、忽略规则是否覆盖生成物、操作说明是否更新、验证结果是否归档、暂存内容是否含隐私或无关文件、当前 Git 操作是否获授权。
 
-## 8. 修改者与推送日志 / AI and Push Audit
+## 8. 简明提交日志 / Changelog
 
-日志文件：[docs/change-log.md](docs/change-log.md)。每次授权修改都维护一条任务记录；不要把“日志”解释成可记录隐私或完整对话。
+日志文件：[docs/change-log.md](docs/change-log.md)。**每次提交追加一行，只保留两个字段：提交人（或 AI 模型型号）和提交时间。**
 
-1. 修改记录包含日期、稳定任务编号、范围、实际文件/目录、验证结果、AI 产品/服务与当前会话已知的模型标识。多 AI 参与时按实际文件/任务分别记；人类修改也明确记人类。
-2. 当前会话：**OpenAI Codex，基于 GPT-6；更细模型 ID 未提供**。后续 Agent 必须填写自己实际身份，不能照抄本会话标识；不知道的版本填“未知/未提供”，不猜测。原始游戏作者未核实，不归因给负责搬移文件的 AI。
-3. 提交正文同步 AI 归属，建议尾注 `Task-ID:`、`AI-Agent:`、`AI-Model:`。Git author/committer 仍沿用现有配置，不为体现 AI 署名而伪造作者或邮箱。用任务编号和尾注关联提交，避免在日志中写包含该日志的提交自身哈希。
-4. 推送记录与修改记录分开：推送时间（含时区）、远端/分支、被推送提交或范围、实际认证的 GitHub 账号、执行者（人类或某 AI）、授权来源摘要、验证证据和结果。不得记录 token、密码、SSH 私钥或邮箱；不要复制凭据助手的完整输出。
-5. `user.name`、commit 作者、仓库 owner、remote URL 或本机用户名均不能证明推送身份。优先采用 GitHub 对应 PushEvent 的 actor 或平台审计；也可采用当前推送所用认证身份的核对结果或人类确认，并如实标注证据类型。历史证据缺失或权限/限流导致无法核实时写“未知”，不编造旧记录。
-6. 未执行 push 写“未推送；账号不适用”，不得预先声称由某账号推送成功。先核对授权再推送，成功后核对远端提交并补记事实；失败保留失败状态，不写成功时间。
-7. 推送回执可以在下一次正常提交补记，并写明补记日期、对应旧提交和证据；补记提交本身如尚未推送，就保持该状态。无需为自引用哈希/回执无限循环提交和推送，补记日志也不产生新的 push 授权。
-8. README 同步日志入口，实测证据写 `docs/verification.md`。每次交付说明本地 commit 与远端 push 的实际状态。
+- 人类提交填实际提交人账号，AI 提交填当前会话已知的产品/模型；未知型号如实写“型号未记录”，不猜测、不照抄前一会话。
+- 时间采用北京时间（UTC+08:00），与 Git 的提交时间对应；历史记录从 `git show -s --format=%cI` 核对，不用推送时间代替。
+- 行格式为 `- 提交人或 AI 型号 | YYYY-MM-DDTHH:mm:ss+08:00`。不加改动说明、任务编号、哈希、推送回执或其他字段，具体改动放进 `CH:` / `EN:` commit 说明。
+- 记录 AI 型号不改变现有 Git author/committer 配置。原始游戏作者未知，不能归因给搬移或提交文件的 AI。
 
-协作语境：当前提出要求的是合作者；另一位参与者不熟悉代码。归属日志帮助双方追踪账号与 AI 的贡献，初学者操作指导帮助不熟悉代码的人理解步骤。不要把仓库所有者、当前提问者、推送账号和初学者默认视为同一个人。
+协作语境：当前提出要求的是合作者；另一位参与者不熟悉代码。日志帮助双方识别提交者，初学者操作指导帮助不熟悉代码的人理解步骤。不要把仓库所有者、当前提问者、推送账号和初学者默认视为同一个人。
 
 ## 9. 每次对话末尾指导人类 / Beginner Handoff
 
@@ -235,10 +231,10 @@ Conventions: document Agent collaboration and formatting
 - Verify changed scripts with appropriate checks and isolated mocked tests. State unperformed checks explicitly; setup tests are not game tests.
 - Keep downloaded packages in project-local `node_modules/` and `vendor/`, both ignored by Git. Commit code, manifests, configuration, lockfiles, and docs; reconstruct dependencies with `node setup.js`.
 - Exclude virtual environments, caches, build output, raw datasets, chat records, training output, temporary photos, and credentials. Honor private-document filter markers without removing them. Assess final deliverables separately and record large disk operations.
-- Maintain `docs/change-log.md`: distinguish actual code authors/AI product and known model ID from the authenticated push account, executor, time, branch, and verified commit. Unknown historical facts must stay unknown; repository owner and Git author are not push identity. Current session: OpenAI Codex based on GPT-6; a more specific model ID is unavailable. Human authorization here covers account/AI audit fields only.
+- Maintain `docs/change-log.md` with exactly one line per commit and two fields: contributor or known AI model, and commit time in UTC+08:00. Unknown model IDs stay unknown. Put change details and verification in the `CH:` / `EN:` commit message, not in the log.
 - Exclude other private identity information. Do not alter global Git identity or project-external private files.
 - AI may stage and commit by default when the task calls for it. **AI must not push without explicit human authorization for that task.** Review-first instructions also suspend staging and committing.
 - Having the human type key commands helps them understand the operation, its scope, and its result. When explicitly authorized to act, AI may execute and explain; do not require the human to repeat completed operations just for teaching.
-- The current requester is a collaborator; beginner guidance serves the other participant unfamiliar with coding. Audit records track each account and AI contribution. Do not conflate requester, repository owner, push account, and beginner.
-- Use `main` and Chinese-first bilingual commit descriptions covering changes, verification, and documentation. Do not infer permission to rewrite history from permission to push.
+- The current requester is a collaborator; beginner guidance serves the other participant unfamiliar with coding. The concise log identifies contributors. Do not conflate requester, repository owner, push account, and beginner.
+- Use `main` and `CH:` Chinese / `EN:` English commit descriptions covering changes, verification, and documentation. Do not infer permission to rewrite history from permission to push.
 - At the end of every project conversation, explain the next human action in beginner-friendly steps. Distinguish local commits from remote pushes; if already pushed, say no repeat upload is needed and provide a review or setup step.
