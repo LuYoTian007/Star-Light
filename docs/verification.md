@@ -83,4 +83,6 @@ The completed documentation review checked links, structure, commands, permissio
 
 README、AGENTS 和两份维护记录的相对链接、Markdown 代码块与无 Tab 检查通过，Agent 中的 JavaScript 示例语法通过。23 个生成物/环境/数据/敏感路径示例的忽略检查通过，`docs/change-log.md` 确认不被忽略；`git diff --check` 通过。实际推送回执见 [change-log.md](change-log.md)。新增或改动的函数采用 4 空格及代码块花括号独占一行；其余旧函数保留原格式，不声称全项目已重排。
 
+目录整理提交 `e49872df80fc3e38cb1de1112b9657dda89596c4` 按本任务人类授权由 Codex 推送；认证账号 `aaf12329`，2026-10-10T20:57:12+08:00 核对远端 `main` 与该本地提交一致。后续文档提交补记此回执，并澄清当前提问者为合作者、教学指导面向另一位不熟悉代码的参与者；该补记未再修改代码，不重复运行已经通过的代码测试。
+
 Task `SL-20261010-02`: both original game file hashes remained unchanged after moving them into `game/`. The YAML file moved into `config/` without byte changes; download paths remain relative to the project root. Eight tests passed, including an isolated entry-point integration check from another working directory with network downloads forbidden. Changed-source syntax, help, default configuration, and explicit configuration were checked successfully. Actual cached Phaser bytes were verified and reused. Only Windows was tested; the game was not run. The authenticated GitHub credential resolved to `aaf12329`; historical push accounts remain unknown because the public event lookup was rate-limited. Consult the change log for actual push receipts.

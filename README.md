@@ -60,7 +60,7 @@ Star-Light/
 
 入库源码、必要配置、锁文件和维护文档；下载依赖、虚拟环境、缓存、构建产物、原始数据、训练输出和临时照片/聊天记录不入库。不得强制暂存被忽略的文件；新增文件类型先检查忽略规则。最终交付成品是否入库按用途和体积单独判断。私人信息遵循资料库的过滤规则；有“【请过滤本文件】”标记的内容不得分享或批量发布，AI 不自行删除标记。`docs/change-log.md` 是人工维护的项目记录，不属于被忽略的机器运行日志。
 
-修改与推送分开记在 [变更与推送日志](docs/change-log.md)：修改内容、验证、AI 产品和已知模型标识；实际推送账号、执行者、时间、远端分支和已确认的提交。Git 作者、仓库所有者与推送账号不能相互代替；历史未知项如实标注。当前 AI 为 OpenAI Codex，基于 GPT-6；本会话未提供更细模型 ID。日志规则见 [AGENTS.md](AGENTS.md)。
+修改与推送分开记在 [变更与推送日志](docs/change-log.md)：修改内容、验证、AI 产品和已知模型标识；实际推送账号、执行者、时间、远端分支和已确认的提交。Git 作者、仓库所有者与推送账号不能相互代替；历史未知项如实标注。当前 AI 为 OpenAI Codex，基于 GPT-6；本会话未提供更细模型 ID。日志规则见 [AGENTS.md](AGENTS.md)。日志用于协作者之间追踪贡献，初学者操作说明用于帮助不熟悉代码的另一位参与者理解操作，不将当前提问者默认视为初学者。
 
 ### 自动配置文件夹依赖
 
@@ -327,6 +327,8 @@ Game source lives in `game/`, configuration in `config/`, tooling in `scripts/`,
 Track source, necessary configuration, lockfiles, and maintained documentation. Exclude downloaded dependencies, virtual environments, caches, build output, raw data, training output, temporary photos, chat records, and private material. Review ignore rules when adding file types; never bypass them with forced staging. Assess final deliverables individually by purpose and size. Skip documents marked “【请过滤本文件】” when sharing or publishing, and do not remove their marker automatically. Curated Markdown audit records remain tracked.
 
 [Change and push records](docs/change-log.md) distinguish code changes and their AI author from actual GitHub pushes. Record the known AI product/model, checks, authenticated push account, executor, timestamp, branch, and confirmed commit. Do not infer a push account from the repository owner or Git author. Unknown historical facts stay unknown. This session uses OpenAI Codex based on GPT-6; a more specific model ID is unavailable. Follow [AGENTS.md](AGENTS.md).
+
+Audit records track collaborators' contributions. Beginner instructions help the other participant unfamiliar with coding understand operations; they do not imply that the current requester is a beginner.
 
 ### Automatic project-folder dependency setup
 

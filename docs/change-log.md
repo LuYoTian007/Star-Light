@@ -19,10 +19,10 @@ Git 提交作者、仓库所有者、实际推送账号和修改代码的 AI 是
 | 代码修改 | `scripts/common/paths.js` 更新默认配置地址；`setup.js` 更新帮助；`tests/setup.test.js` 更新配置用例并新增跨工作目录集成检查 |
 | 仓库卫生 | `.gitignore` 增补虚拟环境、缓存、构建产物、原始数据、训练输出、私人/临时目录；空置的 `launcher/` 送入回收站 |
 | 文档修改 | `README.md`、`AGENTS.md`、本日志、`docs/verification.md` 同步目录、规范、归属与验证范围 |
-| 教学约定 | 用户手输关键指令是为了理解操作目的、影响与结果；获授权由 AI 操作时仍解释，无需重复执行 |
+| 协作与教学 | 当前提问者是合作者；日志区分贡献归属。手输关键指令帮助另一位不熟悉代码的参与者理解操作目的、影响与结果；获授权由 AI 操作时仍解释，无需重复执行 |
 | 验证 | 8 项测试通过、0 项失败；受影响 JS 语法与帮助通过，默认/显式配置成功复用缓存；原始游戏哈希不变 |
 | 跨平台边界 | 本次实测 Windows；未在 macOS/Linux 运行，不宣称已通过这些系统的测试 |
-| 推送状态 | 已获本任务授权，尚未执行；下表将记录实际回执 |
+| 推送状态 | 目录整理提交已推送并核对远端；实际回执如下，回执补记随本任务后续普通文档提交维护 |
 
 ### 历史记录：首次存档和依赖工具
 
@@ -35,17 +35,20 @@ Git 提交作者、仓库所有者、实际推送账号和修改代码的 AI 是
 
 ## 推送记录 / Push Records
 
-### SL-20261010-02：本次推送准备
+### SL-20261010-02：目录整理提交的实际推送回执
 
 | 字段 | 记录 |
 |---|---|
 | 远端 / 分支 | `https://github.com/LuYoTian007/Star-Light.git` / `main` |
-| 当前状态 | 未执行 push，尚无成功时间和远端新提交回执 |
+| 结果与时间 | 普通 push 成功；2026-10-10T20:57:12+08:00 完成远端核对 |
+| 推送范围 | `c56096580e07f225db7a41360f8c89eeebc5eb9c` → `e49872df80fc3e38cb1de1112b9657dda89596c4` |
+| 实际推送账号 | `aaf12329`，与仓库所有者 `LuYoTian007` 分开记录 |
 | 认证账号核对 | `aaf12329`，2026-10-10T20:53:33+08:00 |
 | 账号证据 | 当前仓库 HTTPS Git 凭据经 GitHub 认证接口 `GET /user` 核对，仅保留返回的 login；没有记录或显示凭据内容 |
-| 计划执行者 | OpenAI Codex（基于 GPT-6，更细模型 ID 未提供） |
+| 实际执行者 | OpenAI Codex（基于 GPT-6，更细模型 ID 未提供） |
 | 授权来源 | 人类在本任务明确要求“这次你自己push” |
-| 注意 | 账号核对是推送准备事实，不代表推送已经成功；完成后补记实际时间、提交与远端核对结果 |
+| 结果证据 | `git push origin main` 成功；`git ls-remote origin refs/heads/main` 返回 `e49872df80fc3e38cb1de1112b9657dda89596c4`，与本地提交一致 |
+| 回执补记 | 2026-10-10，在后续普通文档提交中补记此已完成推送；补记提交自身哈希不写入本文件，最终上传结果由远端与交付回复确认，避免自引用循环 |
 
 ## 后续记录方法 / How to Maintain
 
@@ -68,4 +71,4 @@ This curated log separates change authors, the known AI product/model, Git autho
 
 Task `SL-20261010-02` organizes the game archive and dependency configuration, updates configuration paths/help/tests, expands ignore and hygiene rules, and documents attribution. OpenAI Codex based on GPT-6 performed these edits; a more specific model identifier was not provided. Original game files were moved without changing their contents and are not attributed to this AI as their original author. Eight isolated tests passed; verification was performed on Windows only.
 
-The human explicitly authorized this task's push. At 2026-10-10T20:53:33+08:00, the repository's current HTTPS Git credential was checked through authenticated GitHub `GET /user`, returning `aaf12329`. This identifies the planned push credential, not a completed push or a historical account. Add the actual receipt after remote verification; later receipt commits do not require endless self-referential logging or create new authorization.
+The requester is a collaborator. Audit records track contributors; beginner guidance serves the other participant unfamiliar with coding. The human explicitly authorized this task's push. At 2026-10-10T20:53:33+08:00, the repository's current HTTPS Git credential was checked through authenticated GitHub `GET /user`, returning `aaf12329`. The ordinary push advanced `main` from `c56096580e07f225db7a41360f8c89eeebc5eb9c` to `e49872df80fc3e38cb1de1112b9657dda89596c4`; remote verification completed at 2026-10-10T20:57:12+08:00. This does not prove historical accounts. The receipt is recorded in a subsequent ordinary documentation commit; its own upload can be verified from the remote and handoff without endless self-referential logging or new authorization.

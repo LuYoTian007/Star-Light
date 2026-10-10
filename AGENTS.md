@@ -203,9 +203,11 @@ Conventions: document Agent collaboration and formatting
 7. 推送回执可以在下一次正常提交补记，并写明补记日期、对应旧提交和证据；补记提交本身如尚未推送，就保持该状态。无需为自引用哈希/回执无限循环提交和推送，补记日志也不产生新的 push 授权。
 8. README 同步日志入口，实测证据写 `docs/verification.md`。每次交付说明本地 commit 与远端 push 的实际状态。
 
+协作语境：当前提出要求的是合作者；另一位参与者不熟悉代码。归属日志帮助双方追踪账号与 AI 的贡献，初学者操作指导帮助不熟悉代码的人理解步骤。不要把仓库所有者、当前提问者、推送账号和初学者默认视为同一个人。
+
 ## 9. 每次对话末尾指导人类 / Beginner Handoff
 
-协作者可能没有编程经验。**每次项目对话的最终回复末尾，都给人类可照做的下一步。** 不只说“提交好了”“自己 push”，不假设对方知道终端、仓库或命令的含义。
+操作指导面向项目中不熟悉代码的参与者，不据此假定当前提问者没有编程经验。**每次项目对话的最终回复末尾，都给人类可照做的下一步。** 不只说“提交好了”“自己 push”，不假设接手的人知道终端、仓库或命令的含义。
 
 - 用短编号说明在哪里操作、粘贴什么、预期看到什么；命令一条一条给。
 - 明确区分：文件已修改、本地已 commit、GitHub 已 push。commit 是本地记录，push 是上传这些记录。
@@ -237,5 +239,6 @@ Conventions: document Agent collaboration and formatting
 - Exclude other private identity information. Do not alter global Git identity or project-external private files.
 - AI may stage and commit by default when the task calls for it. **AI must not push without explicit human authorization for that task.** Review-first instructions also suspend staging and committing.
 - Having the human type key commands helps them understand the operation, its scope, and its result. When explicitly authorized to act, AI may execute and explain; do not require the human to repeat completed operations just for teaching.
+- The current requester is a collaborator; beginner guidance serves the other participant unfamiliar with coding. Audit records track each account and AI contribution. Do not conflate requester, repository owner, push account, and beginner.
 - Use `main` and Chinese-first bilingual commit descriptions covering changes, verification, and documentation. Do not infer permission to rewrite history from permission to push.
 - At the end of every project conversation, explain the next human action in beginner-friendly steps. Distinguish local commits from remote pushes; if already pushed, say no repeat upload is needed and provide a review or setup step.
