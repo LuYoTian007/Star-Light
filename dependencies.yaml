@@ -1,0 +1,17 @@
+# 文件夹依赖配置 / Project-folder dependency configuration
+version: 1
+
+download:
+  timeoutMs: 30000
+  maxBytes: 5000000
+
+# 浏览器依赖；SHA256 匹配后才写入并使用。
+# Browser dependencies; files are used only after SHA256 verification.
+dependencies:
+  - name: "phaser"
+    version: "3.60.0"
+    file: "vendor/phaser-3.60.0.min.js"
+    sha256: "d16aca3f36470e2d1eac3a37ba708261e2a496bfad896f8c0172597df42f3455"
+    sources:
+      - "https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"
+      - "https://unpkg.com/phaser@3.60.0/dist/phaser.min.js"

@@ -1,0 +1,14 @@
+# Installed packages and downloaded browser dependencies
+node_modules/
+vendor/
+
+# Interrupted downloads and local logs
+*.part
+*.log
+
+# Credentials and editor/OS files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

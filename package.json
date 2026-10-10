@@ -1,0 +1,12 @@
+{
+  "name": "star-light-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "YAML-configured dependency setup for an incomplete Phaser demo",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "setup": "node setup.js",
+    "test": "node --test tests/setup.test.js"
+  },
+  "dependencies": { "yaml": "2.9.1" }
+}
