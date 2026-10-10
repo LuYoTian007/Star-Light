@@ -8,13 +8,14 @@
 const path = require('node:path');
 
 /** 被入口与测试调用：建立可重定向的项目地址簿。 */
-function createPaths(root = path.resolve(__dirname, '..', '..')) {
-  return Object.freeze({
-    root: path.resolve(root),
-    config: 'dependencies.yaml',
-    packageFile: 'package.json',
-    lockFile: 'package-lock.json',
-  });
+function createPaths(root = path.resolve(__dirname, '..', '..'))
+{
+    return Object.freeze({
+        root: path.resolve(root),
+        config: 'config/dependencies.yaml',
+        packageFile: 'package.json',
+        lockFile: 'package-lock.json',
+    });
 }
 
 /** 被公共 I/O 与配置模块调用：拒绝绝对路径和项目外路径。 */

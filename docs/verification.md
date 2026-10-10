@@ -1,5 +1,7 @@
 # 验证记录 / Verification Record
 
+本页按任务保留验证历史。下方早期记录中的根目录游戏/YAML 路径是整理前的路径；当前路径与本次结果见“目录归类与审计规则验证”。
+
 记录日期：2026-10-10。该记录描述依赖脚本和文档验证，不代表游戏已经修复。
 
 ## 环境与范围 / Environment and Scope
@@ -60,3 +62,25 @@ Initial parser installation and Phaser download succeeded. Subsequent setup, exp
 The table above records the unchanged original file hashes and the configured Phaser hash. Generated dependency directories are ignored by Git. The original HTML still loads Phaser from its CDN reference. No game execution, game functional validation, server startup, or browser launch was performed.
 
 The completed documentation review checked links, structure, commands, permission rules, and Markdown fences. The JavaScript example and setup source syntax passed; examples were not executed. The pre-commit test run again reported seven passes and zero failures, and help output was checked. These checks did not access external download sources. Hashes for both original files, the setup entry, four helper modules, and tests matched the documentation task's starting baseline. Existing source formatting is preserved; the new four-space and brace-placement rules apply to future authorized edits rather than implying an automatic bulk reformat.
+
+## 目录归类与审计规则验证 / Organization and Audit Checks
+
+任务：`SL-20261010-02`，日期：2026-10-10。执行 AI：OpenAI Codex（基于 GPT-6；更细模型 ID 未提供）。Windows、PowerShell、Node.js v24.21.0，未实测 macOS/Linux。
+
+| 检查 | 实际结果 |
+|---|---|
+| 游戏归档 | `game/index.html`、`game/game.js` 与上表原始哈希完全相同；仅移动，未修复/运行游戏 |
+| 配置归类 | `config/dependencies.yaml` 内容不变；下载路径仍基于项目根目录 |
+| `npm test` | 8 项通过，0 项失败；新增在隔离副本中从其他工作目录运行入口的集成检查，禁用网络下载 |
+| 受影响 JS 语法 | `setup.js`、`scripts/common/paths.js`、`tests/setup.test.js` 的 `node --check` 均通过 |
+| `node setup.js --help` | 正确显示新配置地址，不安装依赖 |
+| `node setup.js` | 从新默认配置位置读取，Phaser 缓存校验通过并复用 |
+| `node setup.js --config config/dependencies.yaml` | 显式配置地址成功，复用缓存 |
+| 游戏相对引用 | HTML 与 `game.js` 一起移动到 `game/`，原始相对引用仍指向同目录文件；未启动页面 |
+| 遗留空目录 | 确认 `launcher/` 无文件后送回收站；操作前已备份入库文件到项目外任务工作目录 |
+| GitHub 账号核对 | 认证的 GitHub `GET /user` 返回 `aaf12329`；只保留 login，不输出凭据 |
+| 历史推送证据 | 远端 `main` 整理前为 `c56096580e07f225db7a41360f8c89eeebc5eb9c`；公开 PushEvent 查询被限流，历史推送账号记为未知 |
+
+README、AGENTS 和两份维护记录的相对链接、Markdown 代码块与无 Tab 检查通过，Agent 中的 JavaScript 示例语法通过。23 个生成物/环境/数据/敏感路径示例的忽略检查通过，`docs/change-log.md` 确认不被忽略；`git diff --check` 通过。实际推送回执见 [change-log.md](change-log.md)。新增或改动的函数采用 4 空格及代码块花括号独占一行；其余旧函数保留原格式，不声称全项目已重排。
+
+Task `SL-20261010-02`: both original game file hashes remained unchanged after moving them into `game/`. The YAML file moved into `config/` without byte changes; download paths remain relative to the project root. Eight tests passed, including an isolated entry-point integration check from another working directory with network downloads forbidden. Changed-source syntax, help, default configuration, and explicit configuration were checked successfully. Actual cached Phaser bytes were verified and reused. Only Windows was tested; the game was not run. The authenticated GitHub credential resolved to `aaf12329`; historical push accounts remain unknown because the public event lookup was rate-limited. Consult the change log for actual push receipts.

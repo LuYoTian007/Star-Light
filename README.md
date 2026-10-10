@@ -6,7 +6,7 @@
 
 本仓库存档一份空洞骑士风格的二维横版动作游戏残缺代码，使用原生 JavaScript 和 Phaser 3.60.0。当前阶段是保存原始代码、整理结构说明，并提供按 YAML 在项目文件夹中自动准备依赖的脚本。
 
-**当前游戏代码无法正常启动。** `game.js` 中的方法缺少外围类结构，且 `BootScene`、`GameScene` 的定义和初始化代码缺失。依赖配置脚本可独立运行，不修复、执行或改写游戏代码。下文游戏分析描述的是源码中可见的设计与逻辑片段，不代表游戏功能已经运行或验证通过。
+**当前游戏代码无法正常启动。** `game/game.js` 中的方法缺少外围类结构，且 `BootScene`、`GameScene` 的定义和初始化代码缺失。依赖配置脚本可独立运行，不修复、执行或改写游戏代码。下文游戏分析描述的是源码中可见的设计与逻辑片段，不代表游戏功能已经运行或验证通过。
 
 本 README 是项目状态、目录结构和已知问题的维护入口。状态记录日期：2026-10-10。
 
@@ -16,31 +16,34 @@ Agent 接手先读 [AGENTS.md](AGENTS.md)，其中规定树状流程组织、4 �
 
 ```text
 Star-Light/
-├── index.html   页面入口、游戏容器、样式与脚本加载
-├── game.js      场景配置、标题场景、玩家与敌人逻辑片段
-├── setup.js     自动准备文件夹依赖的入口
-├── dependencies.yaml  浏览器依赖版本、下载地址、文件位置与校验值
-├── package.json       固定 YAML 解析器版本与 npm 指令
-├── package-lock.json  YAML 解析器安装版本和完整性锁定
-├── .gitignore         排除安装包、下载缓存和凭据
-├── AGENTS.md          Agent 协作、代码排版与 Git 权限规范
-├── docs/verification.md 实测范围、结果与文件完整性基线
-├── scripts/
+├── game/               原始游戏存档，内容未改写
+│   ├── index.html      页面入口、游戏容器、样式与脚本加载
+│   └── game.js         场景、玩家与敌人逻辑片段
+├── config/
+│   └── dependencies.yaml  浏览器依赖版本、下载地址、保存位置与校验值
+├── scripts/            依赖工具模块
 │   ├── config.js       读取并校验 YAML
 │   ├── dependencies.js 下载、校验与复用浏览器依赖
 │   └── common/
 │       ├── paths.js    项目路径地址簿
-│       └── io.js       受限路径下的统一文件读写
+│       └── io.js       统一文件读写
 ├── tests/setup.test.js 依赖配置测试
-├── node_modules/      运行后生成：YAML 解析器，Git 忽略
-├── vendor/            运行后生成：浏览器依赖，Git 忽略
-│   └── phaser-3.60.0.min.js
-└── README.md          中英双语结构、使用说明、进度与已知问题
+├── docs/
+│   ├── verification.md 实测结果与原始文件哈希
+│   └── change-log.md   修改者、AI 标识与推送账号记录
+├── setup.js            保留常用入口：node setup.js
+├── package.json        npm 指令和固定 YAML 解析器版本
+├── package-lock.json   解析器版本与完整性锁定
+├── .gitignore          排除下载依赖、环境、缓存、原始数据和临时资料
+├── AGENTS.md           Agent 协作、代码、仓库卫生与日志规范
+├── README.md           中英双语说明
+├── node_modules/       自动生成，Git 忽略
+└── vendor/             自动下载，Git 忽略
 ```
 
 | 项目 | 源码中可见的配置 |
 |---|---|
-| 页面入口 | `index.html`，容器为 `#game-container` |
+| 页面入口 | `game/index.html`，容器为 `#game-container` |
 | 游戏框架 | Phaser 3.60.0，通过 jsDelivr CDN 加载 |
 | 语言与构建 | 原生 JavaScript；新增依赖准备脚本，没有游戏构建流程 |
 | 渲染 | `Phaser.AUTO`，支持 WebGL 时使用 WebGL，否则使用 Canvas 2D |
@@ -50,6 +53,14 @@ Star-Light/
 | 资源与地图 | 引用了纹理名称和 Tilemap，但加载、生成及地图创建代码缺失；下载 Phaser 不会补齐这些内容 |
 
 `Phaser.AUTO` 的选择逻辑可核对 [Phaser 3.60.0 渲染器源码](https://github.com/phaserjs/phaser/blob/v3.60.0/src/core/CreateRenderer.js)。
+
+### 目录归类、仓库卫生与变更日志
+
+游戏源文件放在 `game/`，依赖配置放在 `config/`，工具、测试和文档分别放在 `scripts/`、`tests/`、`docs/`。根目录保留 `setup.js`、npm 清单、README 和 AGENTS 等入口文件。原始两个游戏文件仅移动，内容与原始 SHA256 一致；它们在同一文件夹中，HTML 的相对 `game.js` 引用继续成立。原来空置的 `launcher/` 已送入回收站。
+
+入库源码、必要配置、锁文件和维护文档；下载依赖、虚拟环境、缓存、构建产物、原始数据、训练输出和临时照片/聊天记录不入库。不得强制暂存被忽略的文件；新增文件类型先检查忽略规则。最终交付成品是否入库按用途和体积单独判断。私人信息遵循资料库的过滤规则；有“【请过滤本文件】”标记的内容不得分享或批量发布，AI 不自行删除标记。`docs/change-log.md` 是人工维护的项目记录，不属于被忽略的机器运行日志。
+
+修改与推送分开记在 [变更与推送日志](docs/change-log.md)：修改内容、验证、AI 产品和已知模型标识；实际推送账号、执行者、时间、远端分支和已确认的提交。Git 作者、仓库所有者与推送账号不能相互代替；历史未知项如实标注。当前 AI 为 OpenAI Codex，基于 GPT-6；本会话未提供更细模型 ID。日志规则见 [AGENTS.md](AGENTS.md)。
 
 ### 自动配置文件夹依赖
 
@@ -64,7 +75,7 @@ node setup.js
 执行流程：
 
 1. 检查 YAML 解析器；未安装时自动安装 `package.json` 中固定的 `yaml` 版本。有锁文件时使用 `npm ci`，否则使用 `npm install`；不做全局安装，不执行依赖包的安装脚本。优先使用 `registry.npmmirror.com`，失败后尝试官方 npm 源。
-2. 读取项目内的 `dependencies.yaml`，校验字段、相对路径和 HTTPS 下载地址。
+2. 读取项目内的 `config/dependencies.yaml`，校验字段、相对路径和 HTTPS 下载地址。
 3. 对每个已下载文件重新计算 SHA256。匹配时直接复用；缺失或损坏时按顺序尝试下载地址。
 4. 下载内容通过大小限制和 SHA256 校验后，先写临时文件，再替换目标文件；准备完毕后退出。
 
@@ -72,7 +83,7 @@ node setup.js
 |---|---|
 | YAML 解析包 | `node_modules/yaml/` |
 | Phaser 3.60.0 | `vendor/phaser-3.60.0.min.js` |
-| 浏览器依赖配置 | `dependencies.yaml` |
+| 浏览器依赖配置 | `config/dependencies.yaml` |
 | 固定解析器依赖与锁文件 | `package.json`、`package-lock.json` |
 
 YAML 解析器用于读取 YAML，因此作为脚本自身的固定引导依赖由 `package.json` 声明。需要下载的浏览器依赖由 YAML 声明；当前只有 Phaser。`node_modules/` 与 `vendor/` 已加入 `.gitignore`。
@@ -119,20 +130,20 @@ setup.js → main()
 可用指令：
 
 ```powershell
-node setup.js --config dependencies.yaml  # 指定项目内的另一份 YAML
+node setup.js --config config/dependencies.yaml  # 指定项目内的另一份 YAML
 node setup.js --help                      # 查看用法，不安装依赖
 npm run setup                            # 等价于 node setup.js
 npm test                                 # 已安装解析器后运行脚本测试
 ```
 
-脚本不会启动服务器、打开浏览器或改变 `index.html` 的 CDN 引用。下载的 Phaser 文件已备好，页面当前仍按原始 HTML 从 CDN 加载 Phaser。
+脚本不会启动服务器、打开浏览器或改变 `game/index.html` 的 CDN 引用。下载的 Phaser 文件已备好，页面当前仍按原始 HTML 从 CDN 加载 Phaser。
 
 ### 场景与调用关系
 
 预期场景顺序如下。标题场景按键后进入 `Boot` 有明确调用；`Boot` 如何进入游戏场景因代码缺失无法确认。
 
 ```text
-index.html
+game/index.html
   ├── 加载 Phaser 3.60.0
   └── 加载 game.js
        └── new Phaser.Game(config)
@@ -210,14 +221,15 @@ Phaser 场景调度【场景修复后】
 
 | 内容 | 当前状态 |
 |---|---|
-| 原始文件存档 | 已保存 `index.html` 与 `game.js`，代码保持原始状态 |
+| 目录与协作记录 | 已按用途分目录，补全仓库卫生及 AI/推送日志规则 |
+| 原始文件存档 | 已保存 `game/index.html` 与 `game/game.js`，代码保持原始状态 |
 | 标题页面 | 场景定义存在，但脚本语法问题阻止整个游戏启动 |
 | 玩家机制 | 有移动、二段跳、墙跳、墙滑、跳跃缓冲、冲刺、治疗与死亡重生片段；未运行验证 |
 | 战斗与敌人 | 有方向攻击、下劈反弹、伤害、三类敌人行为片段；未运行验证 |
 | 资源、地图与场景初始化 | 缺失 |
 | README | 已补充中英双语结构、进度与已知问题 |
 | 文件夹依赖准备 | 已实现 YAML 配置、自动安装解析器、下载校验与缓存复用 |
-| 脚本验证 | 7 项测试通过；首次依赖安装与下载、重复运行缓存复用已核对 |
+| 脚本验证 | 8 项测试通过；首次依赖安装与下载、重复运行缓存复用已核对 |
 | Agent 协作规范 | 已记录树状流程、4 空格缩进、花括号换行、推送授权及初学者指导；既有代码未批量重排 |
 | 验证记录 | 已归档脚本实测范围和原始文件 SHA256 |
 | 可运行版本与功能验证 | 尚未完成 |
@@ -235,9 +247,9 @@ Phaser 场景调度【场景修复后】
 
 ### 查看、验证与后续修复
 
-目前直接阅读 `index.html` 与 `game.js` 即可分析结构。入口仍通过 CDN 加载 Phaser，访问该依赖需要网络；本地依赖准备见上面的 `node setup.js`，没有游戏构建步骤。
+目前直接阅读 `game/index.html` 与 `game/game.js` 即可分析结构。入口仍通过 CDN 加载 Phaser，访问该依赖需要网络；本地依赖准备见上面的 `node setup.js`，没有游戏构建步骤。
 
-当前代码无法提供可玩的启动流程。本次只准备文件夹依赖，没有运行游戏或进行游戏功能测试。7 项脚本测试使用临时目录与假下载响应，验证 YAML、路径限制、目录链接拒绝、缓存复用、下载源回退、哈希/大小限制及命令参数。另核对了真实 Phaser 文件的 SHA256 和两个游戏文件的原始哈希。
+当前代码无法提供可玩的启动流程。本次只准备文件夹依赖，没有运行游戏或进行游戏功能测试。8 项脚本测试使用临时目录与假下载响应，验证 YAML、路径限制、目录链接拒绝、缓存复用、下载源回退、哈希/大小限制及命令参数。另核对了真实 Phaser 文件的 SHA256 和两个游戏文件的原始哈希。
 
 游戏修复不在当前任务范围。若以后明确授权修复，建议顺序为：恢复类结构 → 补齐场景与资源、地图初始化 → 明确玩家引用与按键绑定 → 注册碰撞 → 修正敌人数据读取和动作逻辑 → 验证启动、移动、战斗、治疗及重生 → 同步 README 进度与实测结果。
 
@@ -260,7 +272,7 @@ AI 的默认 Git 权限到 add/commit；未经人类明确授权不得 push。�
 
 This repository archives incomplete source code for a Hollow Knight-style 2D platform action prototype built with plain JavaScript and Phaser 3.60.0. The current stage preserves the original code, documents its structure, and provides YAML-configured dependency setup inside the project folder.
 
-**The current game code cannot start successfully.** Methods in `game.js` lack their enclosing class structure, and the definitions and initialization of `BootScene` and `GameScene` are missing. Dependency setup runs independently and does not repair, execute, or rewrite game code. The game descriptions below identify visible design and code fragments; they do not claim working or tested game features.
+**The current game code cannot start successfully.** Methods in `game/game.js` lack their enclosing class structure, and the definitions and initialization of `BootScene` and `GameScene` are missing. Dependency setup runs independently and does not repair, execute, or rewrite game code. The game descriptions below identify visible design and code fragments; they do not claim working or tested game features.
 
 This README is the maintained reference for project status, structure, and known issues. Status date: 2026-10-10.
 
@@ -270,31 +282,34 @@ Agents should first read [AGENTS.md](AGENTS.md), covering tree-shaped flows, fou
 
 ```text
 Star-Light/
-├── index.html   Page entry, game container, styles, and script loading
-├── game.js      Scene configuration, title scene, player and enemy fragments
-├── setup.js     Project-folder dependency setup entry
-├── dependencies.yaml  Browser dependency versions, sources, paths, and hashes
-├── package.json       Pinned YAML parser and npm commands
-├── package-lock.json  Parser installation lock and integrity
-├── .gitignore         Packages, downloaded files, and credentials
-├── AGENTS.md          Agent collaboration, formatting, and Git permissions
-├── docs/verification.md Evidence, scope, and file integrity baselines
-├── scripts/
-│   ├── config.js       YAML parsing and validation
-│   ├── dependencies.js Downloads, verification, and cache reuse
+├── game/               Original game archive; file contents unchanged
+│   ├── index.html      Page entry, container, styles, and script loading
+│   └── game.js         Scene, player, and enemy fragments
+├── config/
+│   └── dependencies.yaml  Browser dependency versions, sources, targets, hashes
+├── scripts/            Dependency tooling modules
+│   ├── config.js       YAML loading and validation
+│   ├── dependencies.js Download, verify, and reuse browser dependencies
 │   └── common/
 │       ├── paths.js    Project path registry
-│       └── io.js       Shared file I/O with path restrictions
-├── tests/setup.test.js Setup behavior tests
-├── node_modules/      Generated parser installation; ignored by Git
-├── vendor/            Generated browser dependencies; ignored by Git
-│   └── phaser-3.60.0.min.js
-└── README.md          Bilingual structure, usage, progress, and known issues
+│       └── io.js       Shared file I/O
+├── tests/setup.test.js Dependency setup tests
+├── docs/
+│   ├── verification.md Verification results and original file hashes
+│   └── change-log.md   Change authors, AI identity, and push account records
+├── setup.js            Stable entry: node setup.js
+├── package.json        npm commands and pinned YAML parser
+├── package-lock.json   Parser version and integrity lock
+├── .gitignore          Generated dependencies, environments, caches, raw data
+├── AGENTS.md           Agent rules, formatting, repository hygiene, audit rules
+├── README.md           Bilingual documentation
+├── node_modules/       Generated and ignored
+└── vendor/             Downloaded and ignored
 ```
 
 | Item | Configuration visible in source |
 |---|---|
-| Entry | `index.html`, using `#game-container` |
+| Entry | `game/index.html`, using `#game-container` |
 | Framework | Phaser 3.60.0 loaded from the jsDelivr CDN |
 | Language and build | Plain JavaScript with a dependency setup script; no game build pipeline |
 | Renderer | `Phaser.AUTO`: WebGL when supported, otherwise Canvas 2D |
@@ -304,6 +319,14 @@ Star-Light/
 | Assets and map | Texture keys and Tilemap references exist; loading, generation, and map creation are missing; downloading Phaser does not restore them |
 
 Renderer selection is documented by the [Phaser 3.60.0 source](https://github.com/phaserjs/phaser/blob/v3.60.0/src/core/CreateRenderer.js).
+
+### Folder organization, hygiene, and audit records
+
+Game source lives in `game/`, configuration in `config/`, tooling in `scripts/`, tests in `tests/`, and documentation in `docs/`. The stable `setup.js` entry and npm manifests remain at the root. Both original game files were moved without changing their bytes; their relative script reference remains valid. The empty legacy `launcher/` folder was sent to the Recycle Bin.
+
+Track source, necessary configuration, lockfiles, and maintained documentation. Exclude downloaded dependencies, virtual environments, caches, build output, raw data, training output, temporary photos, chat records, and private material. Review ignore rules when adding file types; never bypass them with forced staging. Assess final deliverables individually by purpose and size. Skip documents marked “【请过滤本文件】” when sharing or publishing, and do not remove their marker automatically. Curated Markdown audit records remain tracked.
+
+[Change and push records](docs/change-log.md) distinguish code changes and their AI author from actual GitHub pushes. Record the known AI product/model, checks, authenticated push account, executor, timestamp, branch, and confirmed commit. Do not infer a push account from the repository owner or Git author. Unknown historical facts stay unknown. This session uses OpenAI Codex based on GPT-6; a more specific model ID is unavailable. Follow [AGENTS.md](AGENTS.md).
 
 ### Automatic project-folder dependency setup
 
@@ -316,7 +339,7 @@ node setup.js
 The script derives the project root from its own location rather than the terminal's working directory. Calling it by absolute path still installs and downloads dependencies inside that project. Automatic setup means preparing dependencies when invoked, not starting on OS boot.
 
 1. Bootstrap the exact `yaml` parser version declared in `package.json` if absent. Use `npm ci` when a lockfile exists, otherwise `npm install`; use local installation with dependency lifecycle scripts disabled. Try `registry.npmmirror.com` first, then the official npm registry.
-2. Parse `dependencies.yaml` and validate fields, relative paths, and HTTPS sources.
+2. Parse `config/dependencies.yaml` and validate fields, relative paths, and HTTPS sources.
 3. Recalculate SHA256 for existing files. Reuse matching files; download missing or corrupted files by trying sources in order.
 4. Check download size and SHA256, write a temporary file, then replace the dependency file and exit.
 
@@ -324,12 +347,12 @@ The script derives the project root from its own location rather than the termin
 |---|---|
 | YAML parser | `node_modules/yaml/` |
 | Phaser 3.60.0 | `vendor/phaser-3.60.0.min.js` |
-| Browser dependency configuration | `dependencies.yaml` |
+| Browser dependency configuration | `config/dependencies.yaml` |
 | Parser declaration and lock | `package.json`, `package-lock.json` |
 
 The parser must exist before YAML can be read, so it is a fixed bootstrap dependency in `package.json`. Browser downloads are configured in YAML; Phaser is the only current entry. Both generated directories are ignored by Git.
 
-The YAML shape is `{ version, download: { timeoutMs, maxBytes }, dependencies: [{ name, version, file, sha256, sources: [...] }] }`; see the complete YAML example in the Chinese section or `dependencies.yaml`. `sources` is ordered, and file paths are relative to the project root. Download targets are restricted to `vendor/`. A version change must update the URL, filename, and trusted SHA256 together.
+The YAML shape is `{ version, download: { timeoutMs, maxBytes }, dependencies: [{ name, version, file, sha256, sources: [...] }] }`; see the complete YAML example in the Chinese section or `config/dependencies.yaml`. `sources` is ordered, and file paths are relative to the project root. Download targets are restricted to `vendor/`. A version change must update the URL, filename, and trusted SHA256 together.
 
 ```text
 setup.js → main()
@@ -350,20 +373,20 @@ setup.js → main()
 This expands actual calls. File I/O and paths are shared helpers. The configuration and download modules do not import each other; the entry coordinates them.
 
 ```powershell
-node setup.js --config dependencies.yaml  # Choose another YAML inside the project
+node setup.js --config config/dependencies.yaml  # Choose another YAML inside the project
 node setup.js --help                      # Show usage without installing anything
 npm run setup                            # Equivalent to node setup.js
 npm test                                 # Run setup tests after parser installation
 ```
 
-Setup does not start a server, open a browser, or change the CDN reference in `index.html`. The local Phaser file is ready, while the original page still loads Phaser from its CDN URL.
+Setup does not start a server, open a browser, or change the CDN reference in `game/index.html`. The local Phaser file is ready, while the original page still loads Phaser from its CDN URL.
 
 ### Scenes and calls
 
 The configured scene list is `[TitleScene, BootScene, GameScene]`. `TitleScene` explicitly calls `scene.start('Boot')` on a keyboard event. Asset preparation is an inferred responsibility of the missing boot scene; its transition to the game scene cannot be confirmed.
 
 ```text
-index.html → load Phaser and game.js → new Phaser.Game(config)
+game/index.html → load Phaser and game.js → new Phaser.Game(config)
   ├── TitleScene: title and controls; keydown starts 'Boot'
   ├── BootScene: missing definition; presumed resource preparation
   └── GameScene: missing definition and initialization
@@ -437,14 +460,15 @@ Texture loading, texture generation, and frame animation setup are absent. Final
 
 | Area | Status |
 |---|---|
-| Original archive | `index.html` and `game.js` preserved without code changes |
+| Layout and audit | Categorized folders; hygiene and AI/push audit rules documented |
+| Original archive | `game/index.html` and `game/game.js` preserved without code changes |
 | Title scene | Definition exists; script syntax prevents startup |
 | Player mechanics | Movement, double jump, wall jump/slide, jump buffering, dash, healing, and respawn fragments exist; untested |
 | Combat and enemies | Directional attacks, downward bounce, damage, and three enemy behavior fragments exist; untested |
 | Assets, map, scene setup | Missing |
 | README | Bilingual structure, progress, and known issues documented |
 | Folder dependency setup | YAML configuration, parser bootstrap, verified downloads, and cache reuse implemented |
-| Setup validation | Seven tests passed; initial installation/download and repeat cache reuse checked |
+| Setup validation | Eight tests passed; initial installation/download and repeat cache reuse checked |
 | Agent rules | Tree-shaped flows, four spaces, brace placement, push authorization, and beginner guidance documented; no bulk reformat |
 | Verification record | Setup evidence and original file SHA256 baselines archived |
 | Playable build and functional validation | Not completed |
@@ -462,9 +486,9 @@ Texture loading, texture generation, and frame animation setup are absent. Final
 
 ### Inspection, verification, and restoration
 
-Read `index.html` and `game.js` to inspect the structure. The original page still loads Phaser from a CDN and requires network access. Local dependency preparation is provided by `node setup.js`; no game build pipeline is included.
+Read `game/index.html` and `game/game.js` to inspect the structure. The original page still loads Phaser from a CDN and requires network access. Local dependency preparation is provided by `node setup.js`; no game build pipeline is included.
 
-The current source does not offer a playable launch procedure. This work prepares folder dependencies only; no game execution or game functional tests were performed. Seven script tests use temporary directories and fake download responses to verify YAML, path restrictions, link rejection, caching, source fallback, hash/size limits, and arguments. The real Phaser file's SHA256 and the two original game file hashes were also checked.
+The current source does not offer a playable launch procedure. This work prepares folder dependencies only; no game execution or game functional tests were performed. Eight script tests use temporary directories and fake download responses to verify YAML, path restrictions, link rejection, caching, source fallback, hash/size limits, and arguments. The real Phaser file's SHA256 and the two original game file hashes were also checked.
 
 Game restoration is outside the current task. If explicitly authorized later, the suggested order is: repair class structure → restore scenes, assets, and map initialization → establish player references and key bindings → register collisions → correct enemy data and action logic → validate startup, movement, combat, healing, and respawn → update README progress and measured results.
 

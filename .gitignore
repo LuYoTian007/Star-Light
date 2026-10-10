@@ -2,7 +2,31 @@
 node_modules/
 vendor/
 
-# Interrupted downloads and local logs
+# Virtual environments, caches, and build output
+myvenv/
+venv/
+.venv/
+.conda/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+coverage/
+dist/
+build/
+
+# Raw data, training output, private material, and scratch files
+/data/
+/datasets/
+/runs/
+/checkpoints/
+/private/
+/scratch/
+/tmp/
+/temp/
+
+# Interrupted downloads and machine logs; curated docs/*.md stay tracked
+/logs/
 *.part
 *.log
 

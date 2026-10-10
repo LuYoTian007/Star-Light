@@ -1,23 +1,23 @@
 # Star-Light：Agent 协作与代码规范 / Agent Working Rules
 
-本文件适用于本项目内的 Agent 工作。先读本文件，再读 [README.md](README.md)；实测记录见 [docs/verification.md](docs/verification.md)。当前人类的明确指令优先于本文默认规则。
+本文件适用于本项目内的 Agent 工作。先读本文件，再读 [README.md](README.md)；实测记录见 [docs/verification.md](docs/verification.md)，修改者与推送记录见 [docs/change-log.md](docs/change-log.md)。当前人类的明确指令优先于本文默认规则。
 
-来源：用户提供的 `Privacy_Skills_and_Prompt_SQL` 中《代码规范》和《项目接手手册》，结合本项目范围整理；4 空格缩进、花括号换行、初学者操作指导及 Git 权限边界由用户在本次协作中明确补充。不复制私人画像、笔记、身份信息或其他项目细节。
+来源：用户提供的 `Privacy_Skills_and_Prompt_SQL` 中《代码规范》和《项目接手手册》，结合本项目范围整理；4 空格缩进、花括号换行、初学者操作指导、Git 权限边界及 AI/推送归属日志由用户在本次协作中明确补充。不复制私人画像、笔记、身份信息或其他项目细节。
 
 ## 1. 项目事实与当前范围 / Scope
 
 | 项目 | 当前事实 |
 |---|---|
-| 游戏 | Phaser 3.60.0、原生 JavaScript；`game.js` 是残缺代码，不能正常启动 |
+| 游戏 | Phaser 3.60.0、原生 JavaScript；`game/game.js` 是残缺代码，不能正常启动 |
 | 当前交付 | `setup.js` 按 YAML 自动准备项目文件夹依赖 |
 | 操作入口 | `node setup.js`；帮助为 `node setup.js --help` |
 | 环境前提 | Node.js 22+、可用的 npm；首次准备依赖需要网络 |
-| 配置 | `dependencies.yaml` 声明浏览器依赖；`package.json` 声明固定 YAML 解析器 |
+| 配置 | `config/dependencies.yaml` 声明浏览器依赖；`package.json` 声明固定 YAML 解析器 |
 | 下载位置 | 项目根目录内的 `vendor/` 与 `node_modules/` |
-| 原始文件 | `index.html` 和 `game.js` 保留原样；HTML 仍引用 Phaser CDN |
+| 原始文件 | `game/index.html` 和 `game/game.js` 保留原样；HTML 仍引用 Phaser CDN |
 | 状态入口 | README 维护现状、目录、指令、进度和已知问题 |
 
-当前任务只做依赖配置及配套文档，不顺带补齐游戏、启动服务器、打开浏览器、改写 HTML 加载地址或安装开机启动项。以后若人类明确授权新的任务，按新的范围执行，并同步这里和 README；不得把当前范围解释成永久禁止开发游戏。
+当前范围包括原始存档的目录归类、依赖配置和配套规范/日志文档，不顺带补齐游戏、启动服务器、打开浏览器、改写 HTML 加载地址或安装开机启动项。以后若人类明确授权新的任务，按新的范围执行，并同步这里和 README；不得把当前范围解释成永久禁止开发游戏。
 
 文档是接手入口，但操作前仍须核对实际文件和 Git 状态；发现文档与现场不一致时说明并修正文档，不凭旧记录声称功能正常。
 
@@ -126,20 +126,40 @@ def print_items(items):
 - 人类要求暂不测试时遵从，并明确记录未运行。实际下载验证与单元测试分开说明，不把脚本验证当作游戏验证。
 - 相应检查通过后不无理由反复重跑；新变更、失败或未解决问题才需要追加验证。
 
-## 6. 依赖与仓库卫生 / Dependencies
+## 6. 依赖与仓库卫生 / Repository Hygiene
 
-- 下载或安装的包留在项目内部，不全局安装。
-- `node_modules/`、`vendor/`、临时下载文件和日志不入库，使用 `.gitignore` 排除。不要用 `git add -f` 绕过忽略规则。
-- 入库内容为源码、脚本、文档、YAML 配置、`package.json` 和锁文件；克隆后通过 `node setup.js` 重建依赖。
-- 版本、下载地址、保存位置、可信 SHA256 一起维护。版本字段本身不会决定下载内容。
-- 仅使用 HTTPS 源；下载设置超时和大小限制，校验成功后才写入正式文件；错误内容不覆盖有效缓存。
-- YAML 解析器是固定引导依赖，避免把“先解析 YAML 才能安装 YAML 解析器”变成循环。
-- 密钥、凭据、私人资料、真实姓名、学校/单位、位置和联系方式不得进入文件、提交说明或公开日志；确有必要时须有人类明确授权。
-- 不修改全局 Git 作者信息；沿用当前仓库身份，有明确要求时只调整本仓库。
+依据资料库《代码规范》“07 · 仓库卫生”落地；新增例外只有人类明确授权后才适用，不因“方便提交”扩大入库范围。
+
+### 目录与入库边界
+
+- 按用途归类：`game/` 游戏存档、`config/` 配置、`scripts/` 工具、`tests/` 测试、`docs/` 维护文档。根目录保留入口、npm 清单、锁文件、README、AGENTS 和 Git 配置文件。
+- 源码、必要配置、清单、锁文件、维护文档入库。下载或安装的包留在项目内部，由脚本重建，不全局安装；`node_modules/` 与 `vendor/` 永不入库。
+- 虚拟环境（`myvenv/`、`venv/`、`.venv/`、`.conda/`）、缓存（`__pycache__/` 等）、构建输出、临时下载、机器日志不入库。
+- 原始数据集、聊天记录、训练原始输出/检查点、硬件照片等临时资料不入库。默认放在被忽略的 `data/`、`datasets/`、`runs/`、`checkpoints/`、`private/` 或 `scratch/`；归档位置按需记录通用相对路径，不复制数据或私人路径。
+- 最终交付成品按用途和体积选择性入库，不能将训练目录或下载包整体作为“交付”暂存；需要例外时取得明确授权。
+- 新增文件类型或目录时同步 `.gitignore`，使用 `git check-ignore` 和暂存差异核对。禁止 `git add -f` 绕过忽略规则。忽略规则不会自动移除已跟踪文件，发现误入库须说明并按授权处理，不私自改写历史。
+- 项目审阅压缩包、临时备份和中间文件放在项目外的任务工作目录，不在源码仓库制造副本。移动前核对归宿；删除送回收站，不清空回收站，不擅自处理项目外资料。
+- `docs/change-log.md`、`docs/verification.md` 是经审查的 Markdown 维护记录，必须入库；它们区别于被忽略的运行日志，禁止记录凭据或完整原始对话。
+
+### 信息过滤与大文件
+
+- 密钥、凭据、API key、含真实值的 `.env` 永不入库；示例配置只能使用无敏感值的占位符。
+- 文件、提交说明、公开日志和分享资料过滤真实姓名、学校/单位、位置、联系方式、健康信息等私人内容。确需写入须人类明确授权。本任务已授权记录 GitHub 推送账号及 AI 标识，该例外仅覆盖这些审计字段，不覆盖邮箱、令牌或私人资料。
+- 非通用私人文件顶部的“【请过滤本文件】”表示分享、批量处理和公开产出时跳过；阅读时忽略标记行即可，AI 不自行删除标记，也不把标记当作允许入库或分享的依据。
+- ≥1GB 写入/删除、跨盘操作或环境安装先说明范围，按资料库要求检查系统盘剩余容量、前后变化，并在 `docs/` 中登记时间、去向、大小和用途；超大数据（含压缩包）放非系统盘专用目录，小数据可放仓库旁。普通小文件同盘归类不人为扩成大容量操作。
+- 不修改全局 Git 作者信息；沿用仓库现有身份，明确要求时只调整本仓库。Git 作者、实际推送账号和代码修改 AI 分开记录。
+
+### 依赖重建
+
+- 克隆后通过 `node setup.js` 重建依赖；默认配置为 `config/dependencies.yaml`，下载路径仍以项目根目录为基准，不以配置所在目录为基准。
+- 版本、HTTPS 下载地址、保存位置和可信 SHA256 一起维护。设置超时、大小限制，校验成功才写正式文件；错误内容不得覆盖有效缓存。
+- YAML 解析器是固定引导依赖，避免“先解析 YAML 才能安装 YAML 解析器”的循环。
 
 ## 7. Git 权限与提交格式 / Git
 
 **AI 的默认 Git 写权限只到 `git add` 和 `git commit`。未经人类明确授权，AI 不得执行 `git push`。**
+
+让用户亲手输入关键指令，是为了帮助他理解正在执行什么、会影响哪里，以及如何判断结果，而不是机械地照做。用户明确授权 AI 代操作时，AI 可以执行，但仍须解释操作目的和实际结果；不要为了教学要求用户重复已经完成的操作。
 
 - 本文件不是推送授权。“整理”“修复”“提交”“commit”不自动表示允许 push。
 - 推送授权必须明确来自人类，并有对应任务范围；一次任务的授权不自动延续到后续任务。本次协作已明确授权的 push 可执行，不必重复索取同一授权。
@@ -170,7 +190,20 @@ Conventions: document Agent collaboration and formatting
 
 提交前检查：README 与进度是否同步、忽略规则是否覆盖生成物、操作说明是否更新、验证结果是否归档、暂存内容是否含隐私或无关文件、当前 Git 操作是否获授权。
 
-## 8. 每次对话末尾指导人类 / Beginner Handoff
+## 8. 修改者与推送日志 / AI and Push Audit
+
+日志文件：[docs/change-log.md](docs/change-log.md)。每次授权修改都维护一条任务记录；不要把“日志”解释成可记录隐私或完整对话。
+
+1. 修改记录包含日期、稳定任务编号、范围、实际文件/目录、验证结果、AI 产品/服务与当前会话已知的模型标识。多 AI 参与时按实际文件/任务分别记；人类修改也明确记人类。
+2. 当前会话：**OpenAI Codex，基于 GPT-6；更细模型 ID 未提供**。后续 Agent 必须填写自己实际身份，不能照抄本会话标识；不知道的版本填“未知/未提供”，不猜测。原始游戏作者未核实，不归因给负责搬移文件的 AI。
+3. 提交正文同步 AI 归属，建议尾注 `Task-ID:`、`AI-Agent:`、`AI-Model:`。Git author/committer 仍沿用现有配置，不为体现 AI 署名而伪造作者或邮箱。用任务编号和尾注关联提交，避免在日志中写包含该日志的提交自身哈希。
+4. 推送记录与修改记录分开：推送时间（含时区）、远端/分支、被推送提交或范围、实际认证的 GitHub 账号、执行者（人类或某 AI）、授权来源摘要、验证证据和结果。不得记录 token、密码、SSH 私钥或邮箱；不要复制凭据助手的完整输出。
+5. `user.name`、commit 作者、仓库 owner、remote URL 或本机用户名均不能证明推送身份。优先采用 GitHub 对应 PushEvent 的 actor 或平台审计；也可采用当前推送所用认证身份的核对结果或人类确认，并如实标注证据类型。历史证据缺失或权限/限流导致无法核实时写“未知”，不编造旧记录。
+6. 未执行 push 写“未推送；账号不适用”，不得预先声称由某账号推送成功。先核对授权再推送，成功后核对远端提交并补记事实；失败保留失败状态，不写成功时间。
+7. 推送回执可以在下一次正常提交补记，并写明补记日期、对应旧提交和证据；补记提交本身如尚未推送，就保持该状态。无需为自引用哈希/回执无限循环提交和推送，补记日志也不产生新的 push 授权。
+8. README 同步日志入口，实测证据写 `docs/verification.md`。每次交付说明本地 commit 与远端 push 的实际状态。
+
+## 9. 每次对话末尾指导人类 / Beginner Handoff
 
 协作者可能没有编程经验。**每次项目对话的最终回复末尾，都给人类可照做的下一步。** 不只说“提交好了”“自己 push”，不假设对方知道终端、仓库或命令的含义。
 
@@ -193,13 +226,16 @@ Conventions: document Agent collaboration and formatting
 ## English essentials
 
 - Read this file and README first; verify actual files and Git state before acting. Current human instructions take precedence.
-- Current work covers project-local dependency setup and documentation. Do not repair or run the incomplete game, alter its CDN reference, or add server/browser/OS startup behavior without a new task.
+- Current work covers folder organization, project-local dependency setup, documentation, and audit rules. Do not repair or run the incomplete game, alter its CDN reference, or add server/browser/OS startup behavior without a new task.
 - Let the entry coordinate downward, preferably tree-shaped branches. Avoid peer-module coupling, cycles, and reverse dependencies. Reuse shared bottom-layer tools and label shared calls honestly.
 - Use four spaces, no tabs. Put control/function/class block braces on their own lines in brace-based languages. Keep Python and configuration syntax valid. Do not reformat archived or existing files merely because this guide exists.
 - Document responsibilities and actual call trees. Update both language sections of README, commands, progress, and known issues; archive evidence in `docs/verification.md`.
 - Verify changed scripts with appropriate checks and isolated mocked tests. State unperformed checks explicitly; setup tests are not game tests.
 - Keep downloaded packages in project-local `node_modules/` and `vendor/`, both ignored by Git. Commit code, manifests, configuration, lockfiles, and docs; reconstruct dependencies with `node setup.js`.
-- Exclude credentials and private identity information. Do not alter global Git identity or project-external private files.
+- Exclude virtual environments, caches, build output, raw datasets, chat records, training output, temporary photos, and credentials. Honor private-document filter markers without removing them. Assess final deliverables separately and record large disk operations.
+- Maintain `docs/change-log.md`: distinguish actual code authors/AI product and known model ID from the authenticated push account, executor, time, branch, and verified commit. Unknown historical facts must stay unknown; repository owner and Git author are not push identity. Current session: OpenAI Codex based on GPT-6; a more specific model ID is unavailable. Human authorization here covers account/AI audit fields only.
+- Exclude other private identity information. Do not alter global Git identity or project-external private files.
 - AI may stage and commit by default when the task calls for it. **AI must not push without explicit human authorization for that task.** Review-first instructions also suspend staging and committing.
+- Having the human type key commands helps them understand the operation, its scope, and its result. When explicitly authorized to act, AI may execute and explain; do not require the human to repeat completed operations just for teaching.
 - Use `main` and Chinese-first bilingual commit descriptions covering changes, verification, and documentation. Do not infer permission to rewrite history from permission to push.
 - At the end of every project conversation, explain the next human action in beginner-friendly steps. Distinguish local commits from remote pushes; if already pushed, say no repeat upload is needed and provide a review or setup step.

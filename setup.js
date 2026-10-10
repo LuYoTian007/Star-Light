@@ -48,18 +48,23 @@ async function bootstrapYaml(paths) {
 }
 
 /** 程序入口：按 YAML 准备项目文件夹依赖，完成后退出。 */
-async function main(args = process.argv.slice(2)) {
-  const options = parseArguments(args);
-  if (options.help) {
-    console.log('node setup.js [--config dependencies.yaml]\n自动下载并校验文件夹依赖 / Download and verify project-folder dependencies');
-    return;
-  }
-  if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('需要 Node.js 22 或更高版本 / Node.js 22+ required');
-  const paths = createPaths();
-  await bootstrapYaml(paths);
-  const config = await loadConfig(paths, options.config);
-  await prepareDependencies(config, paths);
-  console.log('依赖准备完成 / Dependencies ready');
+async function main(args = process.argv.slice(2))
+{
+    const options = parseArguments(args);
+    if (options.help)
+    {
+        console.log('node setup.js [--config config/dependencies.yaml]\n自动下载并校验文件夹依赖 / Download and verify project-folder dependencies');
+        return;
+    }
+    if (Number(process.versions.node.split('.')[0]) < 22)
+    {
+        throw new Error('需要 Node.js 22 或更高版本 / Node.js 22+ required');
+    }
+    const paths = createPaths();
+    await bootstrapYaml(paths);
+    const config = await loadConfig(paths, options.config);
+    await prepareDependencies(config, paths);
+    console.log('依赖准备完成 / Dependencies ready');
 }
 
 if (require.main === module) {

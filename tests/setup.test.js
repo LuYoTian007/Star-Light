@@ -33,16 +33,19 @@ async function fixture(t) {
   return { root, paths: createPaths(root), config, bytes };
 }
 
-test('reads standard YAML and rejects duplicate keys or invalid configuration', async t => {
-  const f = await fixture(t);
-  await fs.writeFile(path.join(f.root, 'dependencies.yaml'), YAML.stringify(f.config));
-  assert.deepEqual(await loadConfig(f.paths), f.config);
-  await fs.writeFile(path.join(f.root, 'dependencies.yaml'), 'version: 1\nversion: 2\n');
-  await assert.rejects(loadConfig(f.paths), /unique|duplicat/i);
-  assert.throws(() => validateConfig({ ...f.config, download: { ...f.config.download, maxBytes: 0 } }, f.paths), /maxBytes/);
-  assert.throws(() => validateConfig({ ...f.config, dependencies: [{ ...f.config.dependencies[0], file: 'game.js' }] }, f.paths), /vendor/);
-  assert.throws(() => validateConfig({ ...f.config, dependencies: [{ ...f.config.dependencies[0], sources: ['http://example.test/file'] }] }, f.paths), /HTTPS/);
-  assert.throws(() => validateConfig({ ...f.config, dependencies: [f.config.dependencies[0], f.config.dependencies[0]] }, f.paths), /unique/);
+test('reads standard YAML and rejects duplicate keys or invalid configuration', async t =>
+{
+    const f = await fixture(t);
+    await fs.mkdir(path.join(f.root, 'config'));
+    const configFile = path.join(f.root, f.paths.config);
+    await fs.writeFile(configFile, YAML.stringify(f.config));
+    assert.deepEqual(await loadConfig(f.paths), f.config);
+    await fs.writeFile(configFile, 'version: 1\nversion: 2\n');
+    await assert.rejects(loadConfig(f.paths), /unique|duplicat/i);
+    assert.throws(() => validateConfig({ ...f.config, download: { ...f.config.download, maxBytes: 0 } }, f.paths), /maxBytes/);
+    assert.throws(() => validateConfig({ ...f.config, dependencies: [{ ...f.config.dependencies[0], file: 'game/game.js' }] }, f.paths), /vendor/);
+    assert.throws(() => validateConfig({ ...f.config, dependencies: [{ ...f.config.dependencies[0], sources: ['http://example.test/file'] }] }, f.paths), /HTTPS/);
+    assert.throws(() => validateConfig({ ...f.config, dependencies: [f.config.dependencies[0], f.config.dependencies[0]] }, f.paths), /unique/);
 });
 
 test('rejects traversal, absolute paths, hidden files, and package directories', async t => {
@@ -104,9 +107,41 @@ test('hash mismatch and oversized responses never replace an existing cache', as
   assert.deepEqual(await fs.readdir(path.join(f.root, 'vendor')), ['phaser.js']);
 });
 
-test('CLI recognizes the configuration path and rejects unrelated or incomplete arguments', () => {
-  assert.deepEqual(parseArguments(['--config', 'dependencies.yaml']), { config: 'dependencies.yaml', help: false });
-  assert.deepEqual(parseArguments(['--help']), { config: undefined, help: true });
-  assert.throws(() => parseArguments(['--config']), /incomplete argument/);
-  assert.throws(() => parseArguments(['--no-open']), /Unknown/);
+test('CLI recognizes the configuration path and rejects unrelated or incomplete arguments', () =>
+{
+    assert.deepEqual(parseArguments(['--config', 'config/dependencies.yaml']), { config: 'config/dependencies.yaml', help: false });
+    assert.deepEqual(parseArguments(['--help']), { config: undefined, help: true });
+    assert.throws(() => parseArguments(['--config']), /incomplete argument/);
+    assert.throws(() => parseArguments(['--no-open']), /Unknown/);
+});
+
+/** node:test 调用：在独立副本验证新目录布局；缓存齐备，禁止任何网络下载。 */
+test('setup finds nested configuration from another working directory without network access', async t =>
+{
+    const f = await fixture(t);
+    const sourceRoot = path.resolve(__dirname, '..');
+    const { spawnSync } = require('node:child_process');
+    await fs.copyFile(path.join(sourceRoot, 'setup.js'), path.join(f.root, 'setup.js'));
+    await fs.cp(path.join(sourceRoot, 'scripts'), path.join(f.root, 'scripts'), { recursive: true });
+    await fs.cp(path.join(sourceRoot, 'node_modules/yaml'), path.join(f.root, 'node_modules/yaml'), { recursive: true });
+    await fs.writeFile(path.join(f.root, 'package.json'), JSON.stringify({ dependencies: { yaml: require('yaml/package.json').version } }));
+    await fs.mkdir(path.join(f.root, 'config'));
+    await fs.writeFile(path.join(f.root, f.paths.config), YAML.stringify(f.config));
+    await fs.mkdir(path.join(f.root, 'vendor'));
+    const assetFile = path.join(f.root, 'vendor/phaser.js');
+    await fs.writeFile(assetFile, f.bytes);
+    const guardFile = path.join(f.root, 'deny-network.cjs');
+    await fs.writeFile(guardFile, "globalThis.fetch = () =>\n{\n    throw new Error('Network forbidden in integration test');\n};\n");
+
+    const result = spawnSync(process.execPath, ['--require', guardFile, path.join(f.root, 'setup.js')], {
+        cwd: os.tmpdir(),
+        encoding: 'utf8',
+        timeout: 10000,
+        windowsHide: true,
+    });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /Cached/);
+    assert.match(result.stdout, /Dependencies ready/);
+    assert.deepEqual(await fs.readFile(assetFile), f.bytes);
+    assert.deepEqual(await fs.readdir(path.join(f.root, 'vendor')), ['phaser.js']);
 });
